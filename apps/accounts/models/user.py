@@ -7,7 +7,7 @@ class UserModel(AbstractUser):
 
     class Meta:
         app_label='accounts'
-        db_table = 'User'
+        db_table = 'user'
 
 
 class UserManager(BaseUserManager):
