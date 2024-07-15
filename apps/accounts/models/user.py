@@ -6,8 +6,8 @@ class UserModel(AbstractUser):
         return self.username
 
     class Meta:
-        app_label='accounts'
-        db_table = 'user'
+        app_label = 'accounts'
+        db_table = 'account'
 
 
 class UserManager(BaseUserManager):
