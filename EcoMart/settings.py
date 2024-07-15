@@ -62,6 +62,8 @@ REST_FRAMEWORK = {
 
 AUTH_USER_MODEL = 'accounts.UserModel'
 
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
 SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(days=10),  # TODO: Change this time when going in production.
     'REFRESH_TOKEN_LIFETIME': timedelta(days=10),
