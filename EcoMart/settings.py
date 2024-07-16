@@ -62,6 +62,8 @@ REST_FRAMEWORK = {
 
 AUTH_USER_MODEL = 'accounts.UserModel'
 
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+
 SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(days=10),  # TODO: Change this time when going in production.
     'REFRESH_TOKEN_LIFETIME': timedelta(days=10),
@@ -166,3 +168,10 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Email Configuration
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = env('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
