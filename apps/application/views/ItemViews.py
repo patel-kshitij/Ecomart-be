@@ -68,11 +68,10 @@ def item_update_view(request, item_id):
 def item_list_view(request):
     try:
         items = ItemModel.objects.all()
-        serializer = ItemSerializer(items, many=True)
+        serializer = ItemDetailsSerializer(items, many=True)
         return Response(data=serializer.data, status=status.HTTP_200_OK)
     except ItemModel.DoesNotExist:
         return Response(data={'message': 'Item does not exist',
                               'status': False})
     except Exception as e:
         return Response(data={'message': str(e)}, status=status.HTTP_400_BAD_REQUEST)
-
