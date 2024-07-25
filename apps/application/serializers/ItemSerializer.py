@@ -6,7 +6,7 @@ from apps.application.models import ItemModel
 class ItemSerializer(serializers.ModelSerializer):
     class Meta:
         model = ItemModel
-        fields = ('id', 'name', 'description', 'price', 'category', 'seller')
+        fields = ('id', 'name', 'description', 'price', 'category', 'seller', 'condition')
         read_only_fields = ('id',)
 
     def create(self, validated_data):
@@ -19,6 +19,7 @@ class ItemSerializer(serializers.ModelSerializer):
         instance.description = validated_data.get('description', instance.description)
         instance.price = validated_data.get('price', instance.price)
         instance.category = validated_data.get('category', instance.category)
+        instance.condition = validated_data.get('condition', instance.condition)
         instance.save()
         return instance
 
@@ -38,5 +39,9 @@ class ItemDetailsSerializer(serializers.BaseSerializer):
                            'first_name': item.seller.first_name,
                            'last_name': item.seller.last_name,
                            'email': item.seller.email
-                           }
+                           },
+                'condition': item.condition,
+                'is_sold': item.is_sold,
+                'is_bidding_enabled': item.is_bidding_enabled,
+                'createdAt': item.createdAt,
                 }
