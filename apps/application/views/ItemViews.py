@@ -3,7 +3,7 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
-from ..models import ItemModel
+from ..models import ItemModel, ItemImagesModel
 from ..serializers import ItemSerializer, ItemDetailsSerializer
 
 
@@ -73,5 +73,36 @@ def item_list_view(request):
     except ItemModel.DoesNotExist:
         return Response(data={'message': 'Item does not exist',
                               'status': False})
+    except Exception as e:
+        return Response(data={'message': str(e)}, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def item_image_add_view(request, item_id):
+    try:
+        item = ItemModel.objects.get(id=item_id)
+        images = request.data['images']
+        for image in images:
+            ItemImagesModel.objects.create(item=item, image=image)
+        return Response(status=status.HTTP_201_CREATED)
+    except ItemModel.DoesNotExist:
+        return Response(data={'message': 'Item does not exist'}, status=status.HTTP_404_NOT_FOUND)
+    except Exception as e:
+        return Response(data={'message': str(e)}, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['PUT'])
+@permission_classes([IsAuthenticated])
+def item_image_update_view(request, item_id):
+    try:
+        item = ItemModel.objects.get(id=item_id)
+        images = request.data['images']
+        ItemImagesModel.objects.filter(item=item).delete()
+        for image in images:
+            ItemImagesModel.objects.create(item=item, image=image)
+        return Response(data={'message': 'Images Updated'},status=status.HTTP_200_OK)
+    except ItemModel.DoesNotExist:
+        return Response(data={'message': 'Item does not exist'}, status=status.HTTP_404_NOT_FOUND)
     except Exception as e:
         return Response(data={'message': str(e)}, status=status.HTTP_400_BAD_REQUEST)
