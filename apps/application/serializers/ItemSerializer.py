@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from apps.application.models import ItemModel
+from apps.application.models import ItemModel, ItemImagesModel
 
 
 class ItemSerializer(serializers.ModelSerializer):
@@ -10,8 +10,7 @@ class ItemSerializer(serializers.ModelSerializer):
         read_only_fields = ('id',)
 
     def create(self, validated_data):
-        item = ItemModel(**validated_data)
-        item.save()
+        item = ItemModel.objects.create(**validated_data)
         return item
 
     def update(self, instance, validated_data):
@@ -26,6 +25,7 @@ class ItemSerializer(serializers.ModelSerializer):
 
 class ItemDetailsSerializer(serializers.BaseSerializer):
     def to_representation(self, item):
+        itemImages = ItemImagesModel.objects.filter(item=item)
         return {'id': item.id,
                 'name': item.name,
                 'description': item.description,
@@ -43,5 +43,6 @@ class ItemDetailsSerializer(serializers.BaseSerializer):
                 'condition': item.condition,
                 'is_sold': item.is_sold,
                 'is_bidding_enabled': item.is_bidding_enabled,
+                'images': [itemImage.image for itemImage in itemImages],
                 'createdAt': item.createdAt,
                 }

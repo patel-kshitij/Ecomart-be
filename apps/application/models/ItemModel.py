@@ -27,3 +27,14 @@ class ItemModel(models.Model):
     class Meta:
         app_label = "application"
         db_table = "item"
+
+
+class ItemImagesModel(models.Model):
+    id = models.AutoField(primary_key=True)
+    item = models.ForeignKey(ItemModel, null=False, blank=False, on_delete=models.CASCADE)
+    image = models.TextField(null=False, blank=False)
+    createdAt = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        app_label = "application"
+        db_table = "item_image"
