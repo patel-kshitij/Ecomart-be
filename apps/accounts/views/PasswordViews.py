@@ -48,7 +48,6 @@ class PasswordResetAPIView(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-
 class PasswordResetConfirmAPIView(APIView):
 
     permission_classes = (permissions.AllowAny,)
