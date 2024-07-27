@@ -1,3 +1,4 @@
+from django.core.paginator import Paginator
 from rest_framework import generics, status
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
@@ -65,11 +66,23 @@ def item_update_view(request, item_id):
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
-def item_list_view(request):
+def item_list_view(request, page):
     try:
         items = ItemModel.objects.all()
-        serializer = ItemDetailsSerializer(items, many=True)
-        return Response(data=serializer.data, status=status.HTTP_200_OK)
+
+        page = int(page)
+        pages = Paginator(items, 20)
+        pageNObjects = pages.page(page)
+        maxPages = pages.num_pages
+
+        serializer = ItemDetailsSerializer(pageNObjects.object_list, many=True)
+
+        context = {
+            'items': serializer.data,
+            'max_pages': maxPages,
+            'current_page': page,
+        }
+        return Response(data=context, status=status.HTTP_200_OK)
     except ItemModel.DoesNotExist:
         return Response(data={'message': 'Item does not exist',
                               'status': False})
