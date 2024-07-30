@@ -73,8 +73,6 @@ class ContactDetailsSerializer(serializers.ModelSerializer):
 class OrderDetailsSerializer(serializers.BaseSerializer):
     def to_representation(self, order: OrderModel):
         order_items = OrderItemModel.objects.filter(order_id=order.id)
-        test = order.billing_address
-        print(test)
         return {
             'id': order.id,
             'user': {
