@@ -17,3 +17,7 @@ urlpatterns += [
 urlpatterns += [
     path('user/', UserDetailsView.as_view(), name='User Details'),
 ]
+
+urlpatterns += [
+    path('order/', include('apps.application.application_urls.OrdersUrls'), name='Order Urls'),
+]
