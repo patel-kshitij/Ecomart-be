@@ -14,7 +14,7 @@ class ShippingAddressModel(models.Model):
         db_table = "shipping_address"
 
 
-class OrderContactDetailsModel(models.Model):
+class ContactDetailsModel(models.Model):
     id = models.AutoField(primary_key=True)
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
@@ -24,7 +24,7 @@ class OrderContactDetailsModel(models.Model):
 
     class Meta:
         app_label = "application"
-        db_table = "order_contact_details"
+        db_table = "contact_details"
 
 
 class OrderModel(models.Model):
@@ -32,12 +32,12 @@ class OrderModel(models.Model):
     user = models.ForeignKey(UserModel, on_delete=models.CASCADE)
     shipping_address = models.ForeignKey(ShippingAddressModel, on_delete=models.CASCADE)
     billing_address = models.ForeignKey(AddressModel, on_delete=models.CASCADE)
-    contact_details = models.ForeignKey(OrderContactDetailsModel, on_delete=models.CASCADE)
+    contact_details = models.ForeignKey(ContactDetailsModel, on_delete=models.CASCADE)
     createdAt = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         app_label = "application"
-        db_table = "orders"
+        db_table = "order"
 
 
 class OrderItemModel(models.Model):
