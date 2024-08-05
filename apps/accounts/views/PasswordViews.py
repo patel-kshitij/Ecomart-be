@@ -31,7 +31,7 @@ class PasswordResetAPIView(APIView):
                 email_template_name = "password_reset_email.html"
                 context = {
                     "email": user.email,
-                    'domain': 'localhost:8000',  # TODO: Change this domain and take this to some env file.
+                    'domain': 'https://csci5709-group-1.netlify.app/forgot-password-confirm',  # TODO: Change this domain and take this to some env file.
                     'site_name': 'EcoMart',
                     "id": urlsafe_base64_encode(force_bytes(user.id)),
                     "user": user,
