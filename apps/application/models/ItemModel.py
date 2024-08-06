@@ -38,3 +38,15 @@ class ItemImagesModel(models.Model):
     class Meta:
         app_label = "application"
         db_table = "item_image"
+
+
+class ItemBidModel(models.Model):
+    id = models.AutoField(primary_key=True)
+    item = models.ForeignKey(ItemModel, null=False, blank=False, on_delete=models.CASCADE)
+    user = models.ForeignKey(UserModel, null=False, blank=False, on_delete=models.CASCADE)
+    bid_amount = models.DecimalField(null=False, blank=False, decimal_places=2, max_digits=10)
+    createdAt = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        app_label = "application"
+        db_table = "item_bids"

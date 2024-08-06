@@ -21,3 +21,7 @@ urlpatterns += [
 urlpatterns += [
     path('order/', include('apps.application.application_urls.OrdersUrls'), name='Order Urls'),
 ]
+
+urlpatterns += [
+    path('cart/', include('apps.application.application_urls.ShoppingCartUrls'), name='Cart Urls'),
+]

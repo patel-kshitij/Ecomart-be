@@ -1,12 +1,12 @@
 from rest_framework import serializers
 
-from apps.application.models import ItemModel, ItemImagesModel
+from apps.application.models import ItemModel, ItemImagesModel, ItemBidModel
 
 
 class ItemSerializer(serializers.ModelSerializer):
     class Meta:
         model = ItemModel
-        fields = ('id', 'name', 'description', 'price', 'category', 'seller', 'condition')
+        fields = ('id', 'name', 'description', 'price', 'category', 'seller', 'condition', 'is_bidding_enabled')
         read_only_fields = ('id',)
 
     def create(self, validated_data):
@@ -19,6 +19,8 @@ class ItemSerializer(serializers.ModelSerializer):
         instance.price = validated_data.get('price', instance.price)
         instance.category = validated_data.get('category', instance.category)
         instance.condition = validated_data.get('condition', instance.condition)
+        instance.is_bidding_enabled = validated_data.get('is_bidding_enabled', instance.is_bidding_enabled)
+        instance.is_sold = validated_data.get('is_sold', instance.is_sold)
         instance.save()
         return instance
 
@@ -26,6 +28,12 @@ class ItemSerializer(serializers.ModelSerializer):
 class ItemDetailsSerializer(serializers.BaseSerializer):
     def to_representation(self, item):
         item_images = ItemImagesModel.objects.filter(item=item)
+
+        # Top bid for the item.
+        top_item_bid = ItemBidModel.objects.filter(item=item).order_by('-bid_amount').first()
+        if top_item_bid is None:
+            top_item_bid = item.price
+
         return {
             'id': item.id,
             'name': item.name,
@@ -45,5 +53,6 @@ class ItemDetailsSerializer(serializers.BaseSerializer):
             'is_sold': item.is_sold,
             'is_bidding_enabled': item.is_bidding_enabled,
             'images': [item_image.image for item_image in item_images],
+            'current_top_bid': top_item_bid,
             'createdAt': item.createdAt,
         }

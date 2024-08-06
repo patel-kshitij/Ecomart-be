@@ -10,6 +10,14 @@ urlpatterns = [
     path('update/<int:item_id>/', views.item_update_view, name='Update Item'),
     path('<int:page>', views.item_list_view_pagination, name='Item List With Page'),
     path('', views.item_list_view, name='Item List'),
-    path('add-images/<int:item_id>', views.item_image_add_view, name='Add Images'),
-    path('update-images/<int:item_id>', views.item_image_update_view, name='Update Images'),
+    path('add-images/<int:item_id>/', views.item_image_add_view, name='Add Images'),
+    path('update-images/<int:item_id>/', views.item_image_update_view, name='Update Images'),
+]
+
+
+''' Bidding Endpoints '''
+urlpatterns += [
+    path('bids/add', views.add_bid_item_view, name='Add Bid Item'),
+    path('bids/delete/<int:item_bid_id>/', views.delete_bid_item_view, name='Delete Bid Item'),
+    path('bids/<int:item_id>/', views.get_bid_item_view, name='List Item bids'),
 ]
