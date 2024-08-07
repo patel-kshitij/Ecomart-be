@@ -2,7 +2,7 @@ from rest_framework import serializers
 
 from apps.accounts.serializers import UserSerializer
 from apps.application.models import ShoppingCartModel
-from apps.application.serializers import ItemSerializer
+from apps.application.serializers import ItemDetailsSerializer
 
 
 class ShoppingCartSerializer(serializers.ModelSerializer):
@@ -24,6 +24,6 @@ class ShoppingCartSerializer(serializers.ModelSerializer):
         return {
             'id': cart_item.id,
             'user': UserSerializer(cart_item.user).data,
-            'item': ItemSerializer(cart_item.item).data,
+            'item': ItemDetailsSerializer(cart_item.item).data,
             'quantity': cart_item.quantity,
         }
