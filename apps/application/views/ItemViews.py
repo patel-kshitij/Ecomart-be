@@ -71,7 +71,7 @@ def item_update_view(request, item_id):
 def item_list_view(request):
     try:
         user_id = request.user.id
-        items = ItemModel.objects.all().exclude(is_sold=False).exclude(seller_id=user_id)
+        items = ItemModel.objects.all().exclude(is_sold=True).exclude(seller_id=user_id)
 
         serializer = ItemDetailsSerializer(items, many=True)
 

@@ -1,5 +1,6 @@
 from rest_framework import serializers
 
+from apps.accounts.serializers import UserSerializer
 from apps.application.models import ItemModel, ItemImagesModel, ItemBidModel
 
 
@@ -31,7 +32,9 @@ class ItemDetailsSerializer(serializers.BaseSerializer):
 
         # Top bid for the item.
         top_item_bid = ItemBidModel.objects.filter(item=item).order_by('-bid_amount').first()
-        if top_item_bid is None:
+        if top_item_bid:
+            top_item_bid = top_item_bid.bid_amount
+        else:
             top_item_bid = item.price
 
         return {
