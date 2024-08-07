@@ -71,7 +71,7 @@ def item_update_view(request, item_id):
 def item_list_view(request):
     try:
         user_id = request.user.id
-        items = ItemModel.objects.all().exclude(is_sold=True).exclude(seller_id=user_id)
+        items = ItemModel.objects.all().exclude(is_sold=True).exclude(seller_id=user_id).order_by('-createdAt')
 
         serializer = ItemDetailsSerializer(items, many=True)
 
@@ -86,7 +86,7 @@ def item_list_view(request):
 def my_listings_view(request):
     try:
         user_id = request.user.id
-        items = ItemModel.objects.filter(seller_id=user_id)
+        items = ItemModel.objects.filter(seller_id=user_id).order_by('-createdAt')
         serializer = ItemDetailsSerializer(items, many=True)
 
         return Response(data=serializer.data, status=status.HTTP_200_OK)
