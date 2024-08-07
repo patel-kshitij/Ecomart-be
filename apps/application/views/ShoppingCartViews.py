@@ -13,13 +13,18 @@ from ...accounts.serializers import UserSerializer
 
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
-def shopping_cart(request):
+def add_shopping_cart_item(request):
     try:
         user_id = request.user.id
         item_id = request.data['item_id']
         quantity = request.data['quantity']
 
-        ShoppingCartModel.objects.create(user_id=user_id, item_id=item_id, quantity=quantity)
+        try:
+            cart_item = ShoppingCartModel.objects.get(user_id=user_id, item_id=item_id)
+            cart_item.quantity += quantity
+            cart_item.save()
+        except ShoppingCartModel.DoesNotExist:
+            ShoppingCartModel.objects.create(user_id=user_id, item_id=item_id, quantity=quantity)
         return Response(status=status.HTTP_201_CREATED)
     except Exception as e:
         return Response(data={'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
