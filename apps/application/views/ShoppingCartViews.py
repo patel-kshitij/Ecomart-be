@@ -40,3 +40,13 @@ def shopping_cart_list(request):
         return Response(serializer.data, status=status.HTTP_200_OK)
     except Exception as e:
         return Response(data={'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['DELETE'])
+@permission_classes([IsAuthenticated])
+def shopping_cart_delete(request, cart_item_id):
+    try:
+        user_id = request.user.id
+        cart = ShoppingCartModel.object.get(id=cart_item_id, user_id=user_id)
+    except ShoppingCartModel.DoesNotExist:
+        return Response(data={'error': 'Cart item does not exist'}, status=status.HTTP_400_BAD_REQUEST)
