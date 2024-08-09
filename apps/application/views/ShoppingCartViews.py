@@ -47,6 +47,7 @@ def shopping_cart_list(request):
 def shopping_cart_delete(request, cart_item_id):
     try:
         user_id = request.user.id
-        cart = ShoppingCartModel.object.get(id=cart_item_id, user_id=user_id)
+        ShoppingCartModel.object.get(id=cart_item_id, user_id=user_id).delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
     except ShoppingCartModel.DoesNotExist:
         return Response(data={'error': 'Cart item does not exist'}, status=status.HTTP_400_BAD_REQUEST)
