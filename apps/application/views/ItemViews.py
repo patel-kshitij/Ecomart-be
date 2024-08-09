@@ -59,6 +59,9 @@ def item_update_view(request, item_id):
     item.name = request.data['name']
     item.description = request.data['description']
     item.price = request.data['price']
+    item.condition = request.data['condition']
+    item.is_bidding_enabled = request.data['is_bidding_enabled']
+    item.is_sold = request.data['is_sold']
     item.save()
 
     serializer = ItemDetailsSerializer(item)
