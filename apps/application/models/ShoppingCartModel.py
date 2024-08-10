@@ -4,7 +4,6 @@ from apps.application.models import ItemModel
 
 
 class ShoppingCartModel(models.Model):
-    object = None
     id = models.AutoField(primary_key=True)
     item = models.ForeignKey(ItemModel, on_delete=models.CASCADE)
     user = models.ForeignKey(UserModel, on_delete=models.CASCADE)

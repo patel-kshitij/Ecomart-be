@@ -18,10 +18,17 @@ urlpatterns += [
     path('user/', UserDetailsView.as_view(), name='User Details'),
 ]
 
+''' Orders Endpoints '''
 urlpatterns += [
     path('order/', include('apps.application.application_urls.OrdersUrls'), name='Order Urls'),
 ]
 
+''' Cart Endpoints '''
 urlpatterns += [
     path('cart/', include('apps.application.application_urls.ShoppingCartUrls'), name='Cart Urls'),
+]
+
+''' Wishlists Endpoints '''
+urlpatterns += [
+    path('wishlist/', include('apps.application.application_urls.WishlistUrls'), name='Wishlist Urls'),
 ]
