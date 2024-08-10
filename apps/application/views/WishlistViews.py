@@ -43,10 +43,10 @@ def wishlist_list(request):
 
 @api_view(['DELETE'])
 @permission_classes([IsAuthenticated])
-def wishlist_delete(request, cart_item_id):
+def wishlist_delete(request, wishlist_id):
     try:
         user_id = request.user.id
-        WishlistModel.objects.get(id=cart_item_id, user_id=user_id).delete()
+        WishlistModel.objects.get(id=wishlist_id, user_id=user_id).delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
     except WishlistModel.DoesNotExist:
         return Response(data={'error': 'Cart item does not exist'}, status=status.HTTP_400_BAD_REQUEST)
